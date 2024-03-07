@@ -9,7 +9,7 @@ import Dock from '../Dock'
   return (
     <div className='h-full'>
        {currentTab == 'Home' && (
-        <div className='   flex justify-center '>
+        <div className=' p-2  flex justify-center '>
              <Home />
          </div>
       )}

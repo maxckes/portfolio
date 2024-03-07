@@ -6,7 +6,7 @@ const Home: React.FC<{}> = () => {
     container.classList.toggle("hidden");
   }
   return (
-    <div className="flex justify-center  min-h-[600px]  bg-gray-700 bg-opacity-70">
+    <div className="flex justify-center rounded-lg  min-h-[600px]  bg-gray-700 bg-opacity-70">
       <div className="max-w-[800px] w-full      border-gray-100 border-1 rounded-lg">
         <div className="relative font-semibold bg-[#e5e7ebbf] dark:bg-[rgba(26,36,50,0.85)] border-b border-gray-300 dark:border-gray-700 h-8 flex items-center justify-center">
           <p className="text-white">Home</p>
