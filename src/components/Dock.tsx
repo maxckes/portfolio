@@ -89,10 +89,10 @@ const icons: Icon[] = [
     name: "Projects",
     src: "https://icons.veryicon.com/png/o/business/scientific-research-project-icon-library/project-closing-management.png",
   },
-  {
-    name: "Resume",
-    src: "https://icons.veryicon.com/png/o/miscellaneous/general-icon-library/resume-7.png",
-  },
+  //{
+  //  name: "Resume",
+  //  src: "https://icons.veryicon.com/png/o/miscellaneous/general-icon-library/resume-7.png",
+  //},
 ];
 
 export default Dock;
