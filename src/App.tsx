@@ -18,11 +18,105 @@ interface ProjectCardProps {
   details: string[];
 }
 
+// Add new LoadingScreen component at the top of the file
+const LoadingScreen: React.FC = () => {
+  const [progress, setProgress] = useState(0);
+  const [statusText, setStatusText] = useState('INITIALIZING SECURE CONNECTION...');
+
+  useEffect(() => {
+    const messages = [
+      'INITIALIZING SECURE CONNECTION...',
+      'VERIFYING CREDENTIALS...',
+      'ESTABLISHING ENCRYPTED CHANNEL...',
+      'SCANNING FOR INTRUSIONS...',
+      'LOADING CLASSIFIED CONTENT...',
+      'FINAL SECURITY CHECKS...'
+    ];
+
+    const progressInterval = setInterval(() => {
+      setProgress(prev => {
+        const newProgress = prev + 1;
+        // Update status message at certain progress points
+        if (newProgress === 20) setStatusText(messages[1]);
+        if (newProgress === 40) setStatusText(messages[2]);
+        if (newProgress === 60) setStatusText(messages[3]);
+        if (newProgress === 75) setStatusText(messages[4]);
+        if (newProgress === 90) setStatusText(messages[5]);
+        return newProgress > 100 ? 100 : newProgress;
+      });
+    }, 150); // Adjust timing to complete in ~15 seconds
+
+    return () => clearInterval(progressInterval);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
+      {/* Top Classification Banner */}
+      <div className="fixed top-0 w-full text-center bg-red-500/20 border-y-2 border-red-500 py-2">
+        <span className="text-red-500 font-mono font-bold tracking-widest">
+          TOP SECRET - CLASSIFIED ACCESS
+        </span>
+      </div>
+
+      {/* Main Content */}
+      <div className="w-full max-w-2xl px-6 space-y-8">
+        {/* Government Seal Placeholder */}
+        <div className="text-green-500 text-center mb-8 animate-pulse">
+          [CLASSIFIED]
+          <div className="text-xl font-mono mt-2">ACCESS LEVEL: TOP SECRET</div>
+        </div>
+
+        {/* Status Text */}
+        <div className="text-green-400 font-mono text-center mb-4">
+          {statusText}
+        </div>
+
+        {/* Progress Bar */}
+        <div className="h-2 w-full bg-gray-800 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-green-500 transition-all duration-150"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+
+        {/* Progress Percentage */}
+        <div className="text-green-400 font-mono text-center">
+          System Loading: {progress}%
+        </div>
+
+        {/* Security Notices */}
+        <div className="mt-8 text-red-500/80 text-sm font-mono text-center space-y-2">
+          <p>⚠️ AUTHORIZED PERSONNEL ONLY ⚠️</p>
+          <p>FEDERAL LAW PROVIDES SEVERE PENALTIES FOR THE UNAUTHORIZED DISCLOSURE OF CLASSIFIED INFORMATION</p>
+        </div>
+      </div>
+
+      {/* Bottom Classification Banner */}
+      <div className="fixed bottom-0 w-full text-center bg-red-500/20 border-y-2 border-red-500 py-2">
+        <span className="text-red-500 font-mono font-bold tracking-widest">
+          SECURE GOVERNMENT GATEWAY
+        </span>
+      </div>
+    </div>
+  );
+};
+
+// Modify the main component to include loading state
 const ConfidentialPortfolio = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [titleText, setTitleText] = useState('');
   const [showGlitch, setShowGlitch] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fullName = 'EKARSHA SUMAJ KOTIKALAPOODI';
+
+  // Add new useEffect for loading screen
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 15000); // 15 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Typing effect for title
   useEffect(() => {
@@ -132,6 +226,10 @@ const ConfidentialPortfolio = () => {
       </ul>
     </div>
   );
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-green-400 font-mono relative overflow-x-hidden">
