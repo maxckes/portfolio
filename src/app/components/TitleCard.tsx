@@ -1,10 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+
+// Add these type definitions at the top of the file
+type LetterState = {
+  phase: 'hidden' | 'appearing' | 'morphing' | 'settling' | 'complete';
+  morphIndex: number;
+  isBlurred?: boolean;
+  isTransitioning?: boolean;
+  isSettling?: boolean;
+};
+
+type LetterStates = {
+  [key: number]: LetterState;
+};
+
+type LetterSequence = {
+  letter: string;
+  morphSequence: string[];
+  colors: string[];
+};
 
 const KalkiMultilingualTitle = () => {
   const [currentLetterIndex, setCurrentLetterIndex] = useState(-1);
-  const [letterStates, setLetterStates] = useState({});
-  const [isComplete, setIsComplete] = useState(false);
-  const [showParticles, setShowParticles] = useState({});
+  const [letterStates, setLetterStates] = useState<LetterStates>({});
+  const [showParticles, setShowParticles] = useState<{ [key: number]: boolean }>({});
   const [isClient, setIsClient] = useState(false);
   
   // Language sequences for each letter with authentic scripts (11 languages each - added Telugu)
@@ -76,7 +94,6 @@ const KalkiMultilingualTitle = () => {
     }
   ];
 
-  const particleRefs = useRef([]);
 
   useEffect(() => {
     setIsClient(true);
@@ -87,7 +104,6 @@ const KalkiMultilingualTitle = () => {
       // Reset states
       setCurrentLetterIndex(-1);
       setLetterStates({});
-      setIsComplete(false);
       setShowParticles({});
       
       // Animate each letter from left to right (K-A-L-K-I)
@@ -155,13 +171,12 @@ const KalkiMultilingualTitle = () => {
       
       // Mark complete
       await new Promise(resolve => setTimeout(resolve, 500));
-      setIsComplete(true);
     };
 
     animateSequence();
   }, []);
 
-  const LetterComponent = ({ letterData, index }) => {
+  const LetterComponent = ({ letterData, index }: { letterData: LetterSequence; index: number }) => {
     const state = letterStates[index] || { phase: 'hidden', morphIndex: -1 };
     const isVisible = index <= currentLetterIndex;
     
@@ -276,12 +291,7 @@ const KalkiMultilingualTitle = () => {
     );
   };
 
-  const restartAnimation = () => {
-    setCurrentLetterIndex(-1);
-    setLetterStates({});
-    setIsComplete(false);
-    setShowParticles({});
-  };
+ 
 
   return (
     <>

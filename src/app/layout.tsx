@@ -2,7 +2,7 @@
 
 import { Geist, Geist_Mono } from "next/font/google";
 import { ConfigProvider, theme as antdTheme } from 'antd';
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./globals.css";
 import 'antd/dist/reset.css';
 
@@ -14,11 +14,6 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
-
-export const ThemeContext = createContext({
-  theme: 'light',
-  toggleTheme: () => {},
 });
 
 export default function RootLayout({
@@ -51,14 +46,12 @@ export default function RootLayout({
     }
   }, [theme]);
 
-  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f5f6fa] text-[#222] dark:bg-[#18181c] dark:text-[#f5f6fa] transition-colors duration-300`}
       >
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
           <ConfigProvider
             theme={theme === 'dark' ? {
               algorithm: antdTheme.darkAlgorithm,
@@ -86,7 +79,6 @@ export default function RootLayout({
           >
             {children}
           </ConfigProvider>
-        </ThemeContext.Provider>
       </body>
     </html>
   );
